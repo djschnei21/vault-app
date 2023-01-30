@@ -76,7 +76,7 @@ module "ec2_instance" {
 
   count = 3
 
-  name = "vault-${count.index}"
+  name = "vault-${count.index+1}"
 
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t3.small"
@@ -84,6 +84,20 @@ module "ec2_instance" {
   monitoring             = true
   vpc_security_group_ids = ["sg-028d1fce460391d4c"]
   subnet_id              = "${element(data.aws_subnets.public.ids, count.index)}"
+
+  user_data = <<EOF
+#!/bin/bash
+apt update -y && apt install gpg -y
+
+wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
+apt update -y
+apt install vault-enterprise consul-enterprise -y
+
+echo "Changing Hostname"
+hostname "vault-${count.index+1}"
+echo "vault-${count.index+1}" > /etc/hostname
+EOF
 
   tags = {
     Terraform   = "true"
