@@ -73,9 +73,9 @@ module "ec2_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 3.0"
 
-  for_each = toset(["1", "2", "3"])
+  count = 3
 
-  name = "vault-${each.key}"
+  name = "vault-${count.index}"
 
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t3.large"
