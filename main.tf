@@ -78,7 +78,7 @@ module "ec2_instance" {
   name = "vault-${count.index}"
 
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t3.large"
+  instance_type          = "t3.small"
   key_name               = "djs-lab"
   monitoring             = true
   vpc_security_group_ids = ["sg-028d1fce460391d4c"]
