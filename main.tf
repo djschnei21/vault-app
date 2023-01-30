@@ -48,26 +48,24 @@ data "aws_vpc" "selected" {
 
 
 data "aws_subnets" "private" {
+  tags = {
+    Name = "djs-lab-subnet-private*"
+  }
+    
   filter {
     name   = "vpc-id"
     values = [data.aws_vpc.selected.id]
-  }
-
-  filter {
-    name = "Name"
-    values = ["djs-lab-subnet-private*"]
   }
 }
 
 data "aws_subnets" "public" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.selected.id]
+  tags = {
+    Name = "djs-lab-subnet-public*"
   }
 
   filter {
-    name = "Name"
-    values = ["djs-lab-subnet-public*"]
+    name   = "vpc-id"
+    values = [data.aws_vpc.selected.id]
   }
 }
 
