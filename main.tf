@@ -41,9 +41,8 @@ data "aws_ami" "ubuntu" {
 }
 
 data "aws_vpc" "selected" {
-  filter {
-    name = "Name"
-    values = ["djs-lab-vpc"]
+  tags {
+    Name = "djs-lab-vpc"
   }
 }
 
