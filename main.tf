@@ -22,6 +22,7 @@ provider "aws" {
   access_key = data.doormat_aws_credentials.creds.access_key
   secret_key = data.doormat_aws_credentials.creds.secret_key
   token      = data.doormat_aws_credentials.creds.token
+  region = "us-east-1"
 }
 
 data "aws_ami" "ubuntu" {
@@ -46,20 +47,27 @@ data "aws_vpc" "selected" {
   }
 }
 
-data "aws_subnet_ids" "private" {
-  vpc_id = data.aws_vpc.selected.id
+
+data "aws_subnets" "private" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.id]
+  }
 
   filter {
-    name = "Name"
+    name = "name"
     values = ["djs-lab-subnet-private*"]
   }
 }
 
-data "aws_subnet_ids" "public" {
-  vpc_id = data.aws_vpc.selected.id
+data "aws_subnets" "public" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.id]
+  }
 
   filter {
-    name = "Name"
+    name = "name"
     values = ["djs-lab-subnet-public*"]
   }
 }
