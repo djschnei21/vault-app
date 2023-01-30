@@ -83,7 +83,7 @@ module "ec2_instance" {
   key_name               = "djs-lab"
   monitoring             = true
   vpc_security_group_ids = ["sg-028d1fce460391d4c"]
-  subnet_id              = "${element(data.aws_subnets.private.ids, count.index)}"
+  subnet_id              = "${element(data.aws_subnets.public.ids, count.index)}"
 
   tags = {
     Terraform   = "true"
