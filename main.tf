@@ -27,17 +27,18 @@ provider "aws" {
 
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners      = ["679593333241"]
 
   filter {
     name   = "name"
-    values = ["ubuntu-minimal/images/hvm-ssd/ubuntu-focal-20.04-*"]
+    values = ["ubuntu-minimal/images/hvm-ssd/ubuntu-impish-21.10-amd64-minimal*"]
   }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
+
+  owners = ["099720109477"] # Canonical
 }
 
 data "aws_vpc" "selected" {
