@@ -84,6 +84,7 @@ module "ec2_instance" {
   monitoring             = true
   vpc_security_group_ids = ["sg-028d1fce460391d4c"]
   subnet_id              = "${element(data.aws_subnets.public.ids, count.index)}"
+  associate_public_ip_address = true
 
   user_data = <<EOF
 #!/bin/bash
