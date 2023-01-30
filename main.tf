@@ -41,7 +41,8 @@ data "aws_ami" "ubuntu" {
 
 data "aws_vpc" "selected" {
   filter {
-    name = "djs-lab-vpc"
+    name = "Names"
+    values = ["djs-lab-vpc"]
   }
 }
 
@@ -49,7 +50,8 @@ data "aws_subnet_ids" "private" {
   vpc_id = data.aws_vpc.selected.id
 
   filter {
-    name = "djs-lab-subnet-private*"
+    name = "Name"
+    values = ["djs-lab-subnet-private*"]
   }
 }
 
@@ -57,7 +59,8 @@ data "aws_subnet_ids" "public" {
   vpc_id = data.aws_vpc.selected.id
 
   filter {
-    name = "djs-lab-subnet-public*"
+    name = "Name"
+    values = ["djs-lab-subnet-public*"]
   }
 }
 
