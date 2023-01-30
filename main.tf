@@ -30,7 +30,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu-minimal/images/hvm-ssd/ubuntu-impish-21.10-amd64-minimal*"]
+    values = ["ubuntu-minimal/images/hvm-ssd/ubuntu-impish-22.04-amd64-minimal*"]
   }
 
   filter {
