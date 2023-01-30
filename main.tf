@@ -51,7 +51,7 @@ data "aws_vpc" "selected" {
 data "aws_subnets" "private" {
   filter {
     name   = "vpc-id"
-    values = [data.aws_vpc.id]
+    values = [data.aws_vpc.selected.id]
   }
 
   filter {
@@ -63,7 +63,7 @@ data "aws_subnets" "private" {
 data "aws_subnets" "public" {
   filter {
     name   = "vpc-id"
-    values = [data.aws_vpc.id]
+    values = [data.aws_vpc.selected.id]
   }
 
   filter {
@@ -85,7 +85,7 @@ module "ec2_instance" {
   key_name               = "djs-lab"
   monitoring             = true
   vpc_security_group_ids = ["sg-028d1fce460391d4c"]
-  subnet_id              = "${element(data.aws_subnet_ids.private.ids, count.index)}"
+  subnet_id              = "${element(data.aws_subnets.private.ids, count.index)}"
 
   tags = {
     Terraform   = "true"
