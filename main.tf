@@ -137,3 +137,19 @@ resource "aws_lb_target_group_attachment" "vault" {
   target_id        = each.key
   port             = 8200
 }
+
+data "aws_acm_certificate" "vault" {
+  domain   = "vault.schnei.io"
+  statuses = ["ISSUED"]
+}
+
+resource "aws_lb_listener" "vault" {
+  load_balancer_arn = aws_lb.vault.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn   = data.aws_acm_certificate.vault.arn
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.vault.arn
+  }
+}
