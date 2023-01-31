@@ -116,11 +116,11 @@ resource "aws_lb" "test" {
   name               = "vault"
   internal           = false
   load_balancer_type = "network"
-  subnets            = [data.aws_subnets.public.ids]
+  subnets            = data.aws_subnets.public.ids
 }
 
 resource "aws_lb_target_group" "vault" {
-  name     = "lab-vault"
+  name     = "vault"
   port     = 8200
   protocol = "TCP"
   vpc_id   = data.aws_vpc.selected.id
