@@ -153,3 +153,16 @@ resource "aws_lb_listener" "vault" {
     target_group_arn = aws_lb_target_group.vault.arn
   }
 }
+
+data "aws_route53_zone" "selected" {
+  name         = "schnei.io"
+  private_zone = false
+}
+
+resource "aws_route53_record" "vault" {
+  zone_id = data.aws_route53_zone.selected
+  name    = "vault"
+  type    = "CNAME"
+  ttl     = 5
+  records        = ["vault.schnei.io"]
+}
