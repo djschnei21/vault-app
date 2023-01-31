@@ -161,8 +161,8 @@ data "aws_route53_zone" "selected" {
 
 resource "aws_route53_record" "vault" {
   zone_id = data.aws_route53_zone.selected.zone_id
-  name    = "vault"
+  name    = "vault.schnei.io"
   type    = "CNAME"
   ttl     = 5
-  records        = ["vault.schnei.io"]
+  records        = [aws_lb.vault.dns_name]
 }
