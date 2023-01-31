@@ -112,7 +112,7 @@ EOF
   }
 }
 
-resource "aws_lb" "test" {
+resource "aws_lb" "vault" {
   name               = "vault"
   internal           = false
   load_balancer_type = "network"
