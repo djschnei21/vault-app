@@ -146,7 +146,7 @@ data "aws_acm_certificate" "vault" {
 resource "aws_lb_listener" "vault" {
   load_balancer_arn = aws_lb.vault.arn
   port              = "443"
-  protocol          = "HTTPS"
+  protocol          = "TCP"
   certificate_arn   = data.aws_acm_certificate.vault.arn
   default_action {
     type             = "forward"
