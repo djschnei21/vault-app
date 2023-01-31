@@ -119,7 +119,7 @@ resource "aws_lb_target_group" "vault" {
   vpc_id   = data.aws_vpc.selected.id
   health_check {
     enabled = true
-    matcher = ["200","473"]
+    matcher = "200,473"
     path = "/v1/sys/health"
   }
 }
