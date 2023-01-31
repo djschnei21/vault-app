@@ -9,6 +9,12 @@ terraform {
       version = "~> 0.0.2"
     }
   }
+  cloud {
+    organization = "djs-tfcb"
+    workspaces {
+      name = "lab-vault-app"
+    }
+  }
 }
 
 provider "doormat" {}
@@ -104,4 +110,23 @@ EOF
     Terraform   = "true"
     Environment = "dev"
   }
+}
+
+resource "aws_lb_target_group" "vault" {
+  name     = "lab-vault"
+  port     = 8200
+  protocol = "TCP"
+  vpc_id   = data.aws_vpc.selected.id
+  health_check {
+    enabled = true
+    matcher = ["200","473"]
+    path = "/v1/sys/health"
+  }
+}
+
+resource "aws_lb_target_group_attachment" "vault" {
+  for_each         = module.ec2_instance
+  target_group_arn = aws_lb_target_group.vault.arn
+  target_id        = each.key.id
+  port             = 8200
 }
