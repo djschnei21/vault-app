@@ -160,7 +160,7 @@ data "aws_route53_zone" "selected" {
 }
 
 resource "aws_route53_record" "vault" {
-  zone_id = data.aws_route53_zone.selected
+  zone_id = data.aws_route53_zone.selected.zone_id
   name    = "vault"
   type    = "CNAME"
   ttl     = 5
