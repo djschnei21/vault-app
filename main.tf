@@ -112,6 +112,10 @@ EOF
   }
 }
 
+# locals {
+#   instances = toset([ for instance in module.ec2_instance : instance.id ])
+# }
+
 resource "aws_lb_target_group" "vault" {
   name     = "lab-vault"
   port     = 8200
@@ -125,7 +129,7 @@ resource "aws_lb_target_group" "vault" {
 }
 
 resource "aws_lb_target_group_attachment" "vault" {
-  for_each         = [ for instance in module.ec2_instance : instance.id ]
+  for_each         = toset([ for instance in module.ec2_instance : instance.id ])
   target_group_arn = aws_lb_target_group.vault.arn
   target_id        = each.key
   port             = 8200
