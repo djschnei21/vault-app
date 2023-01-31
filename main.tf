@@ -112,9 +112,12 @@ EOF
   }
 }
 
-# locals {
-#   instances = toset([ for instance in module.ec2_instance : instance.id ])
-# }
+resource "aws_lb" "test" {
+  name               = "vault"
+  internal           = false
+  load_balancer_type = "network"
+  subnets            = [data.aws_subnets.public.ids]
+}
 
 resource "aws_lb_target_group" "vault" {
   name     = "lab-vault"
