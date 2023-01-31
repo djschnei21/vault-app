@@ -124,9 +124,13 @@ resource "aws_lb_target_group" "vault" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "vault" {
-  for_each         = module.ec2_instance
-  target_group_arn = aws_lb_target_group.vault.arn
-  target_id        = each.key.id
-  port             = 8200
+# resource "aws_lb_target_group_attachment" "vault" {
+#   for_each         = module.ec2_instance
+#   target_group_arn = aws_lb_target_group.vault.arn
+#   target_id        = each.key.id
+#   port             = 8200
+# }
+
+output "ids" {
+  value = [ for instance in module.ec2_instance : instance.id ]
 }
